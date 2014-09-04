@@ -1,3 +1,4 @@
+(function() {
 /**
  * Game logic for the Game of Life.
  * @constructor
@@ -24,3 +25,7 @@ Life.prototype.reset = function(live_cells) {
  */
 Life.prototype.step = function() {
 };
+
+// Add to the global object.
+LIFE.Life = Life;
+})();
