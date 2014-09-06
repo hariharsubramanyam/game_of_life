@@ -29,18 +29,32 @@ Life.prototype.reset = function(live_cells) {
  *                     obj.y {Number} = The y-coordinate of the cell.
  */
 Life.prototype.step = function() {
+  // Assign "that" so that we can use it in inner functions to refer to the Life object.
   var that = this;
+
+  /**
+   * Find the neighboring cell around a given cell.
+   * @param {Number} x - The x-coordinate of the cell whose neighbors we are finding.
+   * @param {Number} y - The y-coordinate of the cell whose neighbors we are finding.
+   * @return {Object} An Object which has two fields:
+   *  neighbors {Array} -  An array where each element is an array containing two elements (the first element is the
+   *             x-coordinate, the second element is the y-coordinate).
+   *  num_live_neighbors {Number} - The number of live cells adjacent to the cell at x, y.
+   */
   var neighbor_info = function(x, y) {
     var num_live_neighbors = 0;
     var neighbors = [];
+    // Iterate through each adjacent cell.
     for (var i = -1; i <= 1; i++) {
       for (var j = -1; j <= 1; j++) {
         if (i === 0 && j === 0) {
           continue;
         }
+        // If the cell is alive, increment the number of live neighbor cells.
         if (that.isLiveForCell[[x + i,y + j]] !== undefined) {
           num_live_neighbors++;
         }
+        // Add the cell to the list of neighbors.
         neighbors.push([x + i, y + j]);
       }
     }
@@ -49,6 +63,7 @@ Life.prototype.step = function() {
       "num_live_neighbors": num_live_neighbors
     };
   };
+
   var x;
   var y;
   var split_str;
@@ -57,14 +72,20 @@ Life.prototype.step = function() {
   var num_live_neighbors;
   var dead_neighbors = []
   var info_result;
+
   // Kill any live cells that need to die.
   for (var k in this.isLiveForCell) {
+    // Retreive the x and y coordinates of the live cell.
     split_str = k.split(",");
     x = parseInt(split_str[0]);
     y = parseInt(split_str[1]); 
+
+    // Identify the neighbors.
     info_result = neighbor_info(x, y);
     neighbors = info_result.neighbors;
     num_live_neighbors = info_result.num_live_neighbors;
+
+    // If the cell needs to die, add an update marking that the cell should die.
     if (num_live_neighbors < 2 || num_live_neighbors > 3) {
       updates.push({
         "state": "Dead",
@@ -72,22 +93,32 @@ Life.prototype.step = function() {
         "y": y
       });
     }
+
+    // Iterate through each of the neighbors of this live cell.
     for (var i in neighbors) {
       x = neighbors[i][0];
       y = neighbors[i][1];
+      
+      // If the neighbor is dead, add it to the list of dead neighbors.
       if (this.isLiveForCell[[x, y]] === undefined) {
         dead_neighbors[[x, y]] = true;
       }
     }
   }
+
   // Enliven any dead cells that need to live.
   for (var k in dead_neighbors) {
+    // Retrieve the x and y coordinates of this dead cell.
     split_str = k.split(",");
     x = parseInt(split_str[0]);
     y = parseInt(split_str[1]); 
+
+    // Determine the neighbors.
     info_result = neighbor_info(x, y);
     neighbors = info_result.neighbors;
     num_live_neighbors = info_result.num_live_neighbors;
+
+    // If this cell should come alive, add an update to the list of updates.
     if (num_live_neighbors === 3) {
       updates.push({
         "state": "Live",
@@ -96,6 +127,7 @@ Life.prototype.step = function() {
       });
     }
   }
+
   // Apply the updates to the current game state.
   for (var i in updates) {
     if (updates[i].state === "Dead") {
@@ -104,7 +136,7 @@ Life.prototype.step = function() {
       this.isLiveForCell[[updates[i].x, updates[i].y]] = true;
     }
   }
-  console.log(this.isLiveForCell);
+
   return updates;
 };
 
