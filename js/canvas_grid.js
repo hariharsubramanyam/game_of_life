@@ -77,14 +77,23 @@
    * @param {Number} x - The x coordinate of a grid square.
    * @param {Number} y - The y coordinate of a grid square.
    */
-  CanvasGrid.prototype.fillSquare = function(x, y) {
-    var old_fill_style = this.ctx.fillStyle;
-    this.ctx.fillStyle = "#0f0";
+  CanvasGrid.prototype.fillSquare = function(x, y) {   
+    // We want y to increase from bottom to top.
+    y = this.dimension - y;
+    
+    // Ensure that the square is valid.
     if (!this.isValidSquare(x, y)) {
       return;
     }
 
+    // Remember the old fill style and set a new one.
+    var old_fill_style = this.ctx.fillStyle;
+    this.ctx.fillStyle = "#0f0";
+    
+    // Fill the square (we make it have side length = square_size - 1 so that it does not cover the gridlines).
     this.ctx.fillRect(x * this.square_size + 1, y * this.square_size + 1, this.square_size - 2, this.square_size - 2);
+
+    // Restore the original fill style.
     this.ctx.fillStyle = old_fill_style;
   };
 
@@ -94,13 +103,22 @@
    * @param {Number} y - The y coordinate of a grid square.
    */
   CanvasGrid.prototype.clearSquare = function(x, y) {
-    var old_fill_style = this.ctx.fillStyle;
-    this.ctx.fillStyle = "#fff";
+    // We want y to increase from bottom to top.
+    y = this.dimension - y;
+
+    // Ensure that the square is valid.
     if (!this.isValidSquare(x, y)) {
       return;
     }
 
+    // Remember the old fill style and set a new one.
+    var old_fill_style = this.ctx.fillStyle;
+    this.ctx.fillStyle = "#fff";
+
+    // Clear the square (we make it have side length = square_size - 1 so that it does not cover the gridlines).
     this.ctx.fillRect(x * this.square_size + 1, y * this.square_size + 1, this.square_size - 2, this.square_size - 2);
+    
+    // Restore the original fill style.
     this.ctx.fillStyle = old_fill_style;
   };
 
