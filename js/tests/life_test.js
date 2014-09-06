@@ -27,6 +27,7 @@
         {state: "Live", x: 1, y: 1},
         {state: "Live", x: 2, y: 1},
         {state: "Live", x: 4, y: 1},
+        {state: "Live", x: 5, y: -1},
         {state: "Live", x: 5, y: 1}
       ];
       var num_matches = 0;
