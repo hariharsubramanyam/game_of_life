@@ -19,7 +19,6 @@
   var updates;
   setInterval(function(){
     updates = life.step();
-    console.log(updates);
     for (var i in updates) {
       if (updates[i].state === "Dead") {
         canvas_grid.clearSquare(updates[i].x, updates[i].y);

@@ -20,6 +20,38 @@
   };
 
   /**
+   * Find the neighboring cells around a given cell.
+   * @param {Number} x - The x-coordinate of the cell whose neighbors we are finding.
+   * @param {Number} y - The y-coordinate of the cell whose neighbors we are finding.
+   * @return {Object} An Object which has two fields:
+   *  neighbors {Array} -  An array where each element is an array containing two elements (the first element is the
+   *             x-coordinate, the second element is the y-coordinate).
+   *  num_live_neighbors {Number} - The number of live cells adjacent to the cell at x, y.
+   */
+  Life.prototype.neighbor_info = function(x, y) {
+    var num_live_neighbors = 0;
+    var neighbors = [];
+    // Iterate through each adjacent cell.
+    for (var i = -1; i <= 1; i++) {
+      for (var j = -1; j <= 1; j++) {
+        if (i === 0 && j === 0) {
+          continue;
+        }
+        // If the cell is alive, increment the number of live neighbor cells.
+        if (this.isLiveForCell[[x + i,y + j]] !== undefined) {
+          num_live_neighbors++;
+        }
+        // Add the cell to the list of neighbors.
+        neighbors.push([x + i, y + j]);
+      }
+    }
+    return {
+      "neighbors": neighbors,
+      "num_live_neighbors": num_live_neighbors
+    };
+  };
+
+  /**
    * Takes one step in the Game of Life.
    * @return {Array} Array which indicates the changes to the Game of Life after taking the step.
    *                 Each element of the array is an object (call it obj) where:
@@ -29,41 +61,6 @@
    *                     obj.y {Number} = The y-coordinate of the cell.
    */
   Life.prototype.step = function() {
-    // Assign "that" so that we can use it in inner functions to refer to the Life object.
-    var that = this;
-
-    /**
-     * Find the neighboring cell around a given cell.
-     * @param {Number} x - The x-coordinate of the cell whose neighbors we are finding.
-     * @param {Number} y - The y-coordinate of the cell whose neighbors we are finding.
-     * @return {Object} An Object which has two fields:
-     *  neighbors {Array} -  An array where each element is an array containing two elements (the first element is the
-     *             x-coordinate, the second element is the y-coordinate).
-     *  num_live_neighbors {Number} - The number of live cells adjacent to the cell at x, y.
-     */
-    var neighbor_info = function(x, y) {
-      var num_live_neighbors = 0;
-      var neighbors = [];
-      // Iterate through each adjacent cell.
-      for (var i = -1; i <= 1; i++) {
-        for (var j = -1; j <= 1; j++) {
-          if (i === 0 && j === 0) {
-            continue;
-          }
-          // If the cell is alive, increment the number of live neighbor cells.
-          if (that.isLiveForCell[[x + i,y + j]] !== undefined) {
-            num_live_neighbors++;
-          }
-          // Add the cell to the list of neighbors.
-          neighbors.push([x + i, y + j]);
-        }
-      }
-      return {
-        "neighbors": neighbors,
-        "num_live_neighbors": num_live_neighbors
-      };
-    };
-
     var x;
     var y;
     var split_str;
@@ -81,7 +78,7 @@
       y = parseInt(split_str[1]); 
 
       // Identify the neighbors.
-      info_result = neighbor_info(x, y);
+      info_result = this.neighbor_info(x, y);
       neighbors = info_result.neighbors;
       num_live_neighbors = info_result.num_live_neighbors;
 
@@ -114,7 +111,7 @@
       y = parseInt(split_str[1]); 
 
       // Determine the neighbors.
-      info_result = neighbor_info(x, y);
+      info_result = this.neighbor_info(x, y);
       neighbors = info_result.neighbors;
       num_live_neighbors = info_result.num_live_neighbors;
 
