@@ -43,6 +43,14 @@
     this.canvas.setAttribute("height", this.canvas_size);
     this.canvas.setAttribute("width", this.canvas_size);
 
+    this.clearGrid();
+  };
+
+  /**
+   * Clears the grid and redraws the gridlines
+   */
+  CanvasGrid.prototype.clearGrid = function() {
+    this.ctx.clearRect(0, 0, this.canvas_size, this.canvas_size);
     // Draw a border around the canvas.
     this.ctx.moveTo(0, 0);
     this.ctx.lineTo(0, this.canvas_size);
