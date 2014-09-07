@@ -4,7 +4,14 @@
    * @constructor
    */
   var Life = function(){ 
-    this.isLiveForCell = {};
+    /*
+     * This object's keys are two-element arrays of the form [x, y] where x represents the x-coordinate of the cell
+     * and y represents the y-coordinate of the cell. The values associated with the keys are not important.
+     *
+     * This object serves as a set (specifically, it offers fast lookups, insertions, and deletions) where the keys represent
+     * the live cells.
+     */
+    this.live_cells = {};
   };
 
   /**
@@ -13,9 +20,9 @@
    *                                For each obj in live_cells, (obj.x, obj.y) should be the location of a live cell. 
    */
   Life.prototype.reset = function(live_cells) {
-    this.isLiveForCell = {};
+    this.live_cells = {};
     for (var i in live_cells) {
-      this.isLiveForCell[[live_cells[i].x, live_cells[i].y]] = true;
+      this.live_cells[[live_cells[i].x, live_cells[i].y]] = true;
     }
   };
 
@@ -38,7 +45,7 @@
           continue;
         }
         // If the cell is alive, increment the number of live neighbor cells.
-        if (this.isLiveForCell[[x + i,y + j]] !== undefined) {
+        if (this.live_cells[[x + i,y + j]] !== undefined) {
           num_live_neighbors++;
         }
         // Add the cell to the list of neighbors.
@@ -71,7 +78,7 @@
     var info_result;
 
     // Kill any live cells that need to die.
-    for (var k in this.isLiveForCell) {
+    for (var k in this.live_cells) {
       // Retreive the x and y coordinates of the live cell.
       split_str = k.split(",");
       x = parseInt(split_str[0]);
@@ -97,7 +104,7 @@
         y = neighbors[i][1];
         
         // If the neighbor is dead, add it to the list of dead neighbors.
-        if (this.isLiveForCell[[x, y]] === undefined) {
+        if (this.live_cells[[x, y]] === undefined) {
           dead_neighbors[[x, y]] = true;
         }
       }
@@ -128,9 +135,9 @@
     // Apply the updates to the current game state.
     for (var i in updates) {
       if (updates[i].state === "Dead") {
-        delete this.isLiveForCell[[updates[i].x, updates[i].y]];
+        delete this.live_cells[[updates[i].x, updates[i].y]];
       } else {
-        this.isLiveForCell[[updates[i].x, updates[i].y]] = true;
+        this.live_cells[[updates[i].x, updates[i].y]] = true;
       }
     }
 
