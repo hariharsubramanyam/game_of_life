@@ -13,7 +13,7 @@ To change the starting configuration, click the "Next Configuration" and "Previo
 
 ## Highlights
 
-Consider the [`step` function](https://github.com/hariharsubramanyam/game_of_life/blob/master/js/life.js#L70-L145) in `js/life.js`.
+Consider the [`step` function](https://github.com/6170-fa14/hsubrama_proj1/blob/master/js/life.js#L70-L145) in `js/life.js`.
 
 This code computes the next step in the Game of Life. It has three phases:
 
