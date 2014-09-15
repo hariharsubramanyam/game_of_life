@@ -9,7 +9,7 @@
   var next_button = document.getElementById("next_button");
 
   // Manages the game logic for the Game of Life.
-  var life = new LIFE.Life();
+  var life = LIFE.Life();
 
   // Sits on top of the canvas and draws a grid.
   var canvas_grid = LIFE.CanvasGrid(canvas, LIFE.canvas_size, LIFE.canvas_dimension);
