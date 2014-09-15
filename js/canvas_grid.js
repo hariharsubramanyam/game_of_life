@@ -16,118 +16,112 @@
    *                             have a 30 x 30 = 900 squares in the grid.
    */
   var CanvasGrid = function(canvas, canvas_size, dimension) {
-    this.canvas = canvas;
-    this.ctx = canvas.getContext("2d");
+
+    var ctx = canvas.getContext("2d");
 
     // If there is no canvas_size, set the default to 500.
     if (canvas_size === undefined) {
-      this.canvas_size = 500;
-    } else {
-      this.canvas_size = canvas_size;
+      canvas_size = 500;
     }
 
     // If there is no dimension, set the default to 30.
     if (dimension === undefined) {
-      this.dimension = 30;
-    } else {
-      this.dimension = dimension;
+      dimension = 30;
     }
 
     // Determine the size of a square.
-    this.square_size = Math.floor(this.canvas_size / this.dimension);
+    var square_size = Math.floor(canvas_size / dimension);
     
     // Recompute the size of the canvas, given the size of the square.
-    this.canvas_size = this.square_size * this.dimension;
+    canvas_size = square_size * dimension;
 
     // Set the size of the canvas.
-    this.canvas.setAttribute("height", this.canvas_size);
-    this.canvas.setAttribute("width", this.canvas_size);
+    canvas.setAttribute("height", canvas_size);
+    canvas.setAttribute("width", canvas_size);
 
-    this.clearGrid();
-  };
+    /**
+     * Clears the grid and redraws the gridlines
+     */
+    var clearGrid = function() {
+      ctx.clearRect(0, 0, canvas_size, canvas_size);
 
-  /**
-   * Clears the grid and redraws the gridlines
-   */
-  CanvasGrid.prototype.clearGrid = function() {
-    this.ctx.clearRect(0, 0, this.canvas_size, this.canvas_size);
-    // Draw a border around the canvas.
-    this.ctx.moveTo(0, 0);
-    this.ctx.lineTo(0, this.canvas_size);
-    this.ctx.lineTo(this.canvas_size, this.canvas_size);
-    this.ctx.lineTo(this.canvas_size, 0);
-    this.ctx.lineTo(0, 0);
+      // Draw a border around the canvas.
+      ctx.moveTo(0, 0);
+      ctx.lineTo(0, canvas_size);
+      ctx.lineTo(canvas_size, canvas_size);
+      ctx.lineTo(canvas_size, 0);
+      ctx.lineTo(0, 0);
 
-    // Draw the gridlines.
-    for (var i = 0; i < this.dimension; i++) {
-      this.ctx.moveTo(0, this.square_size * i);
-      this.ctx.lineTo(this.canvas_size, this.square_size * i);
-      this.ctx.moveTo(this.square_size * i, 0);
-      this.ctx.lineTo(this.square_size * i, this.canvas_size);
-    }
+      // Draw the gridlines.
+      for (var i = 0; i < dimension; i++) {
+        ctx.moveTo(0, square_size * i);
+        ctx.lineTo(canvas_size, square_size * i);
+        ctx.moveTo(square_size * i, 0);
+        ctx.lineTo(square_size * i, canvas_size);
+      }
 
-    // Set the color and perform the actual drawing.
-    this.ctx.strokeStyle = "#000";
-    this.ctx.stroke();
-  };
+      // Set the color and perform the actual drawing.
+      ctx.strokeStyle = "#000";
+      ctx.stroke();
+    };
 
-  /**
-   * @param {Number} x - The x coordinate of a grid square.
-   * @param {Number} y - The y coordinate of a grid square.
-   * @return {Boolean} Whether the grid contains the square with coordinates (x, y).
-   */
-  CanvasGrid.prototype.isValidSquare = function(x, y) {
-    return x >= 0 && y >= 0 && x < this.dimension && y < this.dimension;
-  };
+    /**
+     * @param {Number} x - The x coordinate of a grid square.
+     * @param {Number} y - The y coordinate of a grid square.
+     * @return {Boolean} Whether the grid contains the square with coordinates (x, y).
+     */
+    var isValidSquare = function(x, y) {
+      return x >= 0 && y >= 0 && x < dimension && y < dimension;
+    };
 
-  /**
-   * Fill a square at (x, y).
-   * @param {Number} x - The x coordinate of a grid square.
-   * @param {Number} y - The y coordinate of a grid square.
-   */
-  CanvasGrid.prototype.fillSquare = function(x, y) {   
-    // We want y to increase from bottom to top.
-    y = this.dimension - y;
+    /**
+     * Fill a square at (x, y).
+     * @param {Number} x - The x coordinate of a grid square.
+     * @param {Number} y - The y coordinate of a grid square.
+     */
+    var fillSquare = function(x, y, color) {   
+      // We want y to increase from bottom to top.
+      y = dimension - y;
+      
+      // Ensure that the square is valid.
+      if (!isValidSquare(x, y)) {
+        return;
+      }
+
+      // Remember the old fill style and set a new one.
+      var old_fill_style = ctx.fillStyle;
+      if (color === undefined) {
+        ctx.fillStyle = "#0f0";
+      } else {
+        ctx.fillStyle = color;
+      }
+      
+      // Fill the square (we make it have side length = square_size - 1 so that it does not cover the gridlines).
+      ctx.fillRect(x * square_size + 1, y * square_size + 1, square_size - 2, square_size - 2);
+
+      // Restore the original fill style.
+      ctx.fillStyle = old_fill_style;
+    };
+
+    /**
+     * Clear a square at (x, y).
+     * @param {Number} x - The x coordinate of a grid square.
+     * @param {Number} y - The y coordinate of a grid square.
+     */
+    var clearSquare = function(x, y) {
+      fillSquare(x, y, "#fff");
+    };
+
+    // Create an object and assign the functions to it.
+    var that = {};
+    that.clearGrid = clearGrid;
+    that.isValidSquare = isValidSquare;
+    that.fillSquare = fillSquare;
+    that.clearSquare = clearSquare;
     
-    // Ensure that the square is valid.
-    if (!this.isValidSquare(x, y)) {
-      return;
-    }
+    that.clearGrid();
 
-    // Remember the old fill style and set a new one.
-    var old_fill_style = this.ctx.fillStyle;
-    this.ctx.fillStyle = "#0f0";
-    
-    // Fill the square (we make it have side length = square_size - 1 so that it does not cover the gridlines).
-    this.ctx.fillRect(x * this.square_size + 1, y * this.square_size + 1, this.square_size - 2, this.square_size - 2);
-
-    // Restore the original fill style.
-    this.ctx.fillStyle = old_fill_style;
-  };
-
-  /**
-   * Fill a square at (x, y).
-   * @param {Number} x - The x coordinate of a grid square.
-   * @param {Number} y - The y coordinate of a grid square.
-   */
-  CanvasGrid.prototype.clearSquare = function(x, y) {
-    // We want y to increase from bottom to top.
-    y = this.dimension - y;
-
-    // Ensure that the square is valid.
-    if (!this.isValidSquare(x, y)) {
-      return;
-    }
-
-    // Remember the old fill style and set a new one.
-    var old_fill_style = this.ctx.fillStyle;
-    this.ctx.fillStyle = "#fff";
-
-    // Clear the square (we make it have side length = square_size - 1 so that it does not cover the gridlines).
-    this.ctx.fillRect(x * this.square_size + 1, y * this.square_size + 1, this.square_size - 2, this.square_size - 2);
-    
-    // Restore the original fill style.
-    this.ctx.fillStyle = old_fill_style;
+    return that;
   };
 
   LIFE.CanvasGrid = CanvasGrid;

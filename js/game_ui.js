@@ -12,7 +12,7 @@
   var life = new LIFE.Life();
 
   // Sits on top of the canvas and draws a grid.
-  var canvas_grid = new LIFE.CanvasGrid(canvas, LIFE.canvas_size, LIFE.canvas_dimension);
+  var canvas_grid = LIFE.CanvasGrid(canvas, LIFE.canvas_size, LIFE.canvas_dimension);
   
   // Array of updates that must be made to the board after a step has been taken (see the step function in the Life class).
   var updates;
