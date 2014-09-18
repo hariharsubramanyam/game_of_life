@@ -11,8 +11,8 @@
   // Manages the game logic for the Game of Life.
   var life = LIFE.Life();
 
-  // Sits on top of the canvas and draws a grid.
-  var canvas_grid = LIFE.CanvasGrid(canvas, LIFE.canvas_size, LIFE.canvas_dimension);
+  // Sits on top of the DOM and draws a grid.
+  var dom_grid = LIFE.DOMGrid(null, LIFE.canvas_size, LIFE.canvas_dimension);
   
   // Array of updates that must be made to the board after a step has been taken (see the step function in the Life class).
   var updates;
@@ -43,12 +43,12 @@
     life.reset(initial_cells);
 
     // Clear the grid.
-    canvas_grid.clearGrid();
+    dom_grid.clearGrid();
 
     // Draw the live cells on the grid.
     for (var i in initial_cells) {
       var sq = initial_cells[i];
-      canvas_grid.fillSquare(sq.x, sq.y);
+      dom_grid.fillSquare(sq.x, sq.y);
     }
     
     update_button_visibilities();
@@ -66,9 +66,9 @@
 
     for (var i in updates) {
       if (updates[i].state === "Dead") {
-        canvas_grid.clearSquare(updates[i].x, updates[i].y);
+        dom_grid.clearSquare(updates[i].x, updates[i].y);
       } else {
-        canvas_grid.fillSquare(updates[i].x, updates[i].y);
+        dom_grid.fillSquare(updates[i].x, updates[i].y);
       }
     }
   };
