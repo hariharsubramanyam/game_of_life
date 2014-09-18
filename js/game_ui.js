@@ -1,18 +1,18 @@
 (function() {
-  // The canvas which will display the Game of Life.
-  var canvas = document.getElementById("canvas");
+  // The div which will display the game of life. 
+  var grid_div = $("#grid");
 
   // When clicked, this will load the previous initial configuration.
-  var prev_button = document.getElementById("prev_button");
+  var prev_button = $("#prev_button");
   
   // When clicked, this will load the next initial configuration.
-  var next_button = document.getElementById("next_button");
+  var next_button = $("#next_button");
 
   // Manages the game logic for the Game of Life.
   var life = LIFE.Life();
 
   // Sits on top of the DOM and draws a grid.
-  var dom_grid = LIFE.DOMGrid(null, LIFE.canvas_size, LIFE.canvas_dimension);
+  var dom_grid = LIFE.DOMGrid(grid_div, LIFE.canvas_size, LIFE.canvas_dimension);
   
   // Array of updates that must be made to the board after a step has been taken (see the step function in the Life class).
   var updates;
@@ -26,14 +26,14 @@
   // Hide the previous button if there is no previous configuration, hide the next button if there is no next configuration.
   var update_button_visibilities = function() {
     if (current_config === 0) {
-      prev_button.style.visibility = "hidden";
+      prev_button.css("visibility", "hidden");
     } else {
-      prev_button.style.visibility = "visible";
+      prev_button.css("visibility", "visible");
     }
     if (current_config === LIFE.initial_states.length - 1) {
-      next_button.style.visibility = "hidden";
+      next_button.css("visibility", "hidden");
     } else {
-      next_button.style.visibility = "visible";
+      next_button.css("visibility", "visible");
     }
   };
 
@@ -74,17 +74,16 @@
   };
 
   // Load the previous configuration when the prev_button is clicked.
-  prev_button.onclick = function() {
+  prev_button.click(function() {
     current_config--;
     reset(LIFE.initial_states[current_config]);
-  };
+  });
 
   // Load the next configuration when the next_button is clicked.
-
-  next_button.onclick = function() {
+  next_button.click(function() {
     current_config++;
     reset(LIFE.initial_states[current_config]);
-  };
+  });
 
   // Load the first configuration.
   reset(LIFE.initial_states[current_config]);
