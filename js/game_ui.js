@@ -8,6 +8,13 @@
   // When clicked, this will load the next initial configuration.
   var next_button = $("#next_button");
 
+  // When clicked, it will pause the game. When clicked again, the game resumes.
+  var start_stop_button = $("#start_stop_button");
+
+  // When clicked, the cells are deleted and the user can click cells to enable them.
+  // Then when the button is clicked again, the game starts with the given conditions.
+  var reset_done_button = $("#reset_done_button");
+
   // Manages the game logic for the Game of Life.
   var life = LIFE.Life();
 
@@ -83,6 +90,19 @@
   next_button.click(function() {
     current_config++;
     reset(LIFE.initial_states[current_config]);
+  });
+
+  start_stop_button.click(function() {
+    var button_text = start_stop_button.text();
+    if (button_text === "Stop") {
+      start_stop_button.text("Start");
+      clearInterval(interval);
+    } else if (button_text === "Start") {
+      start_stop_button.text("Stop");
+      interval = setInterval(function() {
+        update();
+      }, 100);
+    }
   });
 
   // Load the first configuration.
