@@ -92,6 +92,8 @@
     reset(LIFE.initial_states[current_config]);
   });
 
+  // When the stop button is clicked, toggle it to say "Start" and stop the game.
+  // When the start button is clicked, toggle it to say "Stop" and start the game.
   start_stop_button.click(function() {
     var button_text = start_stop_button.text();
     if (button_text === "Stop") {
@@ -102,6 +104,21 @@
       interval = setInterval(function() {
         update();
       }, 100);
+    }
+  });
+
+  reset_done_button.click(function() {
+    var button_text = reset_done_button.text();
+    if (button_text === "Reset") {
+      clearInterval(interval);
+      dom_grid.clearGrid();
+      alert("Click squares to make them alive or dead and then click Done");
+      dom_grid.enableToggleSquareOnClick();
+      reset_done_button.text("Done");
+    } else if (button_text === "Done") {
+      reset(dom_grid.get_live_squares());
+      reset_done_button.text("Reset");
+      dom_grid.disableToggleSquareOnClick();
     }
   });
 

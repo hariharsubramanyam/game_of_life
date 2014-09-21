@@ -33,6 +33,7 @@
       for (var i = 0; i < grid.length; i++) {
         for (var j = 0; j < grid[i].length; j++) {
           grid[i][j].css("background-color", "#ffffff");
+          grid[i][j].life_data.is_alive = false;
         }
       }
     };
@@ -58,6 +59,21 @@
     var disableToggleSquareOnClick = function() {
       toggle_on_click = false;
     };
+
+    var get_live_squares = function() {
+      var live_squares = []; 
+      for (var i = 0; i < dimension; i++) {
+        for (var j = 0; j < dimension; j++) {
+          if (grid[i][j].life_data.is_alive) {
+            live_squares.push({
+              "x": j,
+              "y": i
+            });
+          }
+        }
+      }
+      return live_squares;
+    };
     
     for (var i = 0; i < dimension; i++) {
       grid.push([]);
@@ -76,7 +92,6 @@
           square.life_data.is_alive = false;
           square.click(function() {
             if (toggle_on_click) {
-              console.log(i + " and " + j + " is " + square.life_data.is_alive);
               if (square.life_data.is_alive) {
                 clearSquare(j, i);
               } else {
@@ -106,6 +121,7 @@
     that.fillSquare = fillSquare;
     that.enableToggleSquareOnClick = enableToggleSquareOnClick;
     that.disableToggleSquareOnClick = disableToggleSquareOnClick;
+    that.get_live_squares = get_live_squares;
     return that;
   };
   LIFE.DOMGrid = DOMGrid;
