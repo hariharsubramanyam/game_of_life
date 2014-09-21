@@ -22,7 +22,7 @@
     $(parent_div).css("width", grid_size + "px")
                  .css("height", grid_size + "px")
                  .css("position", "absolute")
-                 .css("top", "100px")
+                 .css("top", "50px")
                  .css("bottom", 0)
                  .css("left", 0)
                  .css("right", 0)
