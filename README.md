@@ -7,9 +7,13 @@ Project 1 - Game of Life
 
 Open `index.html` in Google Chrome *or* navigate to [conway.firebaseapp.com](https://conway.firebaseapp.com/).
 
-An initial configuration for the Game of Life will be set and the game will begin.
+An initial configuration for the Game of Life will be set and the game will begin. There are 5 buttons.
 
-To change the starting configuration, click the "Next Configuration" and "Previous Configuration" buttons.
+1. **Prev. Config**: Reset the board with the previous sample configuration.
+2. **Stop/Start**: Pause or resume the game.
+3. **Random Spawn**: Randomly make some cells on the grid alive (click rapidly for lots of action!).
+4. **Reset/Done**: After clicking Reset, the game board will be cleared. Then, you can click cells to toggle them alive or dead. When you're done, click Done and the game will start.
+5. **Next Config**: Reset the board with the next sample configuration.
 
 ## Highlights
 
