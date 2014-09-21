@@ -3,7 +3,7 @@
    * Game logic for the Game of Life.
    * @constructor
    */
-  var Life = function(){ 
+  var Life = function() { 
     /*
      * This object's keys are two-element arrays of the form [x, y] where x represents the x-coordinate of the cell
      * and y represents the y-coordinate of the cell. The values associated with the keys are not important.
@@ -140,12 +140,24 @@
         }
       }
 
-    return updates;
-  };
+      return updates;
+    };
+
+    /**
+     * Adds the given cells as live cells.
+     * @param {Array} live_cells - Array of objects indicating the live cells. 
+     *                                For each obj in live_cells, (obj.x, obj.y) should be the location of a live cell. 
+     */
+    var add_live_cells = function(cells) {
+      for (var i in cells) {
+        live_cells[cells[i].x, cells[i].y] = true;
+      }
+    };
 
     var that = {};
     that.reset = reset;
     that.step = step;
+    that.add_live_cells = add_live_cells;
     return that;
   };
 

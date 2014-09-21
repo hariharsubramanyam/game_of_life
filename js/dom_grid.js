@@ -114,7 +114,6 @@
       return x >= 0 && y >= 0 && x < dimension && y < dimension;
     };
 
-
     var that = {};
     that.clearGrid = clearGrid;
     that.clearSquare = clearSquare; 
