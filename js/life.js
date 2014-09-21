@@ -145,12 +145,12 @@
 
     /**
      * Adds the given cells as live cells.
-     * @param {Array} live_cells - Array of objects indicating the live cells. 
+     * @param {Array} cells - Array of objects indicating the live cells. 
      *                                For each obj in live_cells, (obj.x, obj.y) should be the location of a live cell. 
      */
     var add_live_cells = function(cells) {
       for (var i in cells) {
-        live_cells[cells[i].x, cells[i].y] = true;
+        live_cells[[cells[i].x, cells[i].y]] = true;
       }
     };
 

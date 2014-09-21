@@ -136,6 +136,25 @@
     }
   });
 
+  random_spawn_button.click(function() {
+    var dim = LIFE.canvas_dimension;
+    var num_squares = dim * dim;
+    var num_to_generate = Math.round(Math.random() * 0.05 * num_squares);
+    var new_cells = [];
+    var x;
+    var y;
+    for (var i = 0; i < num_to_generate; i++) {
+      x = Math.round(Math.random() * dim);
+      y = Math.round(Math.random() * dim);
+      new_cells.push({
+        "x": x,
+        "y": y
+      });
+      dom_grid.fillSquare(x, y);
+    };
+    life.add_live_cells(new_cells);
+  });
+
   // Load the first configuration.
   reset(LIFE.initial_states[current_config]);
 })();
