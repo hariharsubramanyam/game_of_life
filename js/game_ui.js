@@ -88,6 +88,7 @@
 
   // Load the next configuration when the next_button is clicked.
   next_button.click(function() {
+    start_stop_button.text("Stop");
     current_config++;
     reset(LIFE.initial_states[current_config]);
   });
@@ -110,12 +111,19 @@
   reset_done_button.click(function() {
     var button_text = reset_done_button.text();
     if (button_text === "Reset") {
+      next_button.css("visibility", "hidden");
+      prev_button.css("visibility", "hidden");
+      start_stop_button.css("visibility", "hidden");
       clearInterval(interval);
       dom_grid.clearGrid();
       alert("Click squares to make them alive or dead and then click Done");
       dom_grid.enableToggleSquareOnClick();
       reset_done_button.text("Done");
     } else if (button_text === "Done") {
+      next_button.css("visibility", "visible");
+      prev_button.css("visibility", "visible");
+      start_stop_button.css("visibility", "visible");
+      start_stop_button.text("Stop");
       reset(dom_grid.get_live_squares());
       reset_done_button.text("Reset");
       dom_grid.disableToggleSquareOnClick();
