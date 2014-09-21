@@ -1,0 +1,14 @@
+.pretty-button {
+  background: none;
+  color: white;
+  background-color: black;
+  border: 1px solid blue;
+  height: 30px;
+  border-radius: 5px;
+}
+.pretty-button:hover {
+  background-color: #333333;
+}
+.pretty-button:active {
+  background-color: #555555;
+}
