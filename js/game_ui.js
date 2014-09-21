@@ -15,6 +15,9 @@
   // Then when the button is clicked again, the game starts with the given conditions.
   var reset_done_button = $("#reset_done_button");
 
+  // When clicked, some cells on the board will randomly be brought to life.
+  var random_spawn_button = $("#random_spawn_button");
+
   // Manages the game logic for the Game of Life.
   var life = LIFE.Life();
 
@@ -114,6 +117,7 @@
     if (button_text === "Reset") {
       next_button.css("visibility", "hidden");
       prev_button.css("visibility", "hidden");
+      random_spawn_button.css("visibility", "hidden");
       start_stop_button.css("visibility", "hidden");
       clearInterval(interval);
       dom_grid.clearGrid();
@@ -123,6 +127,7 @@
     } else if (button_text === "Done") {
       next_button.css("visibility", "visible");
       prev_button.css("visibility", "visible");
+      random_spawn_button.css("visibility", "visible");
       start_stop_button.css("visibility", "visible");
       start_stop_button.text("Stop");
       reset(dom_grid.get_live_squares());
