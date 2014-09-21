@@ -102,6 +102,7 @@
       clearInterval(interval);
     } else if (button_text === "Start") {
       start_stop_button.text("Stop");
+      clearInterval(interval);
       interval = setInterval(function() {
         update();
       }, 100);
