@@ -112,37 +112,55 @@
     }
   });
 
+  // When the reset button is clicked, clear the grid and allow the user to toggle cells.
+  // When the done button is clicked, start the game with the given cells.
   reset_done_button.click(function() {
     var button_text = reset_done_button.text();
     if (button_text === "Reset") {
+      // Hide the other buttons.
       next_button.css("visibility", "hidden");
       prev_button.css("visibility", "hidden");
       random_spawn_button.css("visibility", "hidden");
       start_stop_button.css("visibility", "hidden");
+
+      // Clear the grid. 
       clearInterval(interval);
       dom_grid.clearGrid();
+      
+      // Ask the user to toggle squares.
       alert("Click squares to make them alive or dead and then click Done");
       dom_grid.enableToggleSquareOnClick();
+
       reset_done_button.text("Done");
     } else if (button_text === "Done") {
+      // Show the buttons.
       next_button.css("visibility", "visible");
       prev_button.css("visibility", "visible");
       random_spawn_button.css("visibility", "visible");
       start_stop_button.css("visibility", "visible");
       start_stop_button.text("Stop");
-      reset(dom_grid.get_live_squares());
       reset_done_button.text("Reset");
+
+      // Start the game with the new cells.
+      reset(dom_grid.get_live_squares());
+
+      // Prevent toggle squares on click.
       dom_grid.disableToggleSquareOnClick();
     }
   });
 
+  // When the random spawn button is clicked, add some live cells randomly to the grid.
   random_spawn_button.click(function() {
     var dim = LIFE.canvas_dimension;
     var num_squares = dim * dim;
+
+    // The number of cells can be up to 5% of the number of squares on the grid.
     var num_to_generate = Math.round(Math.random() * 0.05 * num_squares);
     var new_cells = [];
     var x;
     var y;
+
+    // Generate each of the live cells and draw them.
     for (var i = 0; i < num_to_generate; i++) {
       x = Math.round(Math.random() * dim);
       y = Math.round(Math.random() * dim);
@@ -152,6 +170,8 @@
       });
       dom_grid.fillSquare(x, y);
     };
+
+    // Add the live cells to the game logic.
     life.add_live_cells(new_cells);
   });
 
