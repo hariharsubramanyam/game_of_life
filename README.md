@@ -1,9 +1,7 @@
 Project 1 - Game of Life
 ============
 
-# Grading Instructions
-
-## Usage
+# Usage
 
 Open `index.html` in Google Chrome *or* navigate to [conway.firebaseapp.com](https://conway.firebaseapp.com/).
 
@@ -15,7 +13,7 @@ An initial configuration for the Game of Life will be set and the game will begi
 4. **Reset/Done**: After clicking Reset, the game board will be cleared. Then, you can click cells to toggle them alive or dead. When you're done, click Done and the game will start.
 5. **Next Config**: Reset the board with the next sample configuration.
 
-## Highlights
+# Highlights
 
 Consider the [`step` function](https://github.com/6170-fa14/hsubrama_proj1/blob/master/js/life.js#L70-L145) in `js/life.js`.
 
@@ -29,12 +27,6 @@ The three pass approach has two advantages:
 
 1. It represents the game state (i.e. the locations of live cells) with a JavaScript object instead of a 2D array (see Design Challenges section).
 2. It returns the updates to the game state (i.e. the cells that have come to life and the cells that have died) instead of returning the whole game board. This is efficient because the drawing code needs only to make incremental changes (ex. drawing a few rectangles on the canvas or modifying a few DOM elements) instead of redrawing the whole game board. 
-
-## Help Wanted
-
-My testing code is in `js/tests` and in `js/test.js`, I create a boolean flag which determines whether tests are run.
-
-I would prefer to be able to run tests from the command line instead of having to toggle a flag and run them in the browser. Are there any JavaScript test frameworks which could help me do this?
 
 # Design Challenges
 
